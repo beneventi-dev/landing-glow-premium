@@ -1,10 +1,16 @@
 // ============================================
-// API: Envío de Leads a Correos y Google Sheets
+// API: Envío de Leads a Correos
 // ============================================
 
 export default async function handler(req, res) {
+    // LOG: Verificar que la función se está ejecutando
+    console.log('📨 API /send-lead ejecutada');
+    console.log('📨 Método:', req.method);
+    console.log('📨 Body:', req.body);
+
     // Solo aceptar POST
     if (req.method !== 'POST') {
+        console.log('❌ Método no permitido:', req.method);
         return res.status(405).json({ error: 'Método no permitido' });
     }
 
@@ -13,10 +19,13 @@ export default async function handler(req, res) {
 
         // Validar datos obligatorios
         if (!nombre || !email || !interes) {
+            console.log('❌ Faltan campos:', { nombre, email, interes });
             return res.status(400).json({ 
                 error: 'Faltan campos obligatorios: nombre, email, e interés' 
             });
         }
+
+        console.log('✅ Datos válidos:', { nombre, email, interes });
 
         // ============================================
         // 1. CLASIFICAR EL INTERÉS (Para el asunto)
@@ -36,7 +45,9 @@ export default async function handler(req, res) {
         // ============================================
         const recipients = process.env.EMAIL_RECIPIENTS 
             ? process.env.EMAIL_RECIPIENTS.split(',').map(email => email.trim())
-            : ['ventas@glow.cl']; // Fallback por defecto
+            : ['ventas@glow.cl'];
+
+        console.log('📨 Destinatarios:', recipients);
 
         // ============================================
         // 3. ENVIAR CORREO (con Nodemailer)
@@ -47,7 +58,7 @@ export default async function handler(req, res) {
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST || 'smtp.gmail.com',
             port: parseInt(process.env.SMTP_PORT || '587'),
-            secure: process.env.SMTP_PORT === '465', // true para 465
+            secure: process.env.SMTP_PORT === '465',
             auth: {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS
@@ -121,45 +132,10 @@ export default async function handler(req, res) {
 
         // Enviar correo
         await transporter.sendMail(mailOptions);
+        console.log('✅ Correo enviado exitosamente');
 
         // ============================================
-        // 4. GUARDAR EN GOOGLE SHEETS (Opcional)
-        // ============================================
-        // Si tienes configurado Google Sheets, descomenta esta sección
-        /*
-        const { google } = require('googleapis');
-        const sheets = google.sheets('v4');
-        
-        const auth = new google.auth.GoogleAuth({
-            credentials: {
-                private_key: process.env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-                client_email: process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
-            },
-            scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-        });
-
-        const sheetsClient = await auth.getClient();
-        const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
-
-        await sheets.spreadsheets.values.append({
-            auth: sheetsClient,
-            spreadsheetId: spreadsheetId,
-            range: 'Leads!A:E',
-            valueInputOption: 'USER_ENTERED',
-            requestBody: {
-                values: [[
-                    new Date(timestamp).toLocaleString('es-CL', { timeZone: 'America/Santiago' }),
-                    nombre,
-                    email,
-                    interesLabel,
-                    'Pendiente'
-                ]]
-            }
-        });
-        */
-
-        // ============================================
-        // 5. RESPONDER CON ÉXITO
+        // 4. RESPONDER CON ÉXITO
         // ============================================
         const thankYouMessage = process.env.THANK_YOU_MESSAGE || 
             'Hemos recibido tu solicitud de asesoría. En los próximos 5 minutos, una de nuestras expertas en belleza revisará tu perfil y te enviará un diagnóstico personalizado.';
@@ -171,7 +147,7 @@ export default async function handler(req, res) {
         });
 
     } catch (error) {
-        console.error('Error en API:', error);
+        console.error('❌ Error en API:', error);
         return res.status(500).json({
             error: 'Error interno del servidor',
             details: error.message
