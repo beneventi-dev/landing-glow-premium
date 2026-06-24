@@ -21,6 +21,133 @@
     const interesError = document.getElementById('interes-error');
 
     // ============================================
+    // SALUDOS DINÁMICOS SEGÚN HORA Y CLIMA
+    // ============================================
+
+    const saludosPorHora = {
+        manana: {
+            frio: [
+                "Buenos días, es un día frío en Los Ángeles. Tu piel necesita hidratación profunda hoy.",
+                "Buen día, el clima frío requiere cuidados especiales. Descubre nuestro serum premium.",
+                "Mañana fría en Los Ángeles, ¿lista para transformar tu rutina de belleza?"
+            ],
+            templado: [
+                "Buenos días, es un día perfecto en Los Ángeles para comenzar tu rutina.",
+                "Buen día, tu piel merece los mejores cuidados esta mañana.",
+                "Mañana hermosa en Los Ángeles, el momento ideal para tu asesoría de belleza."
+            ],
+            caluroso: [
+                "Buenos días, en este día de calor, tu piel necesita protección premium.",
+                "Buen día, después del calor, la hidratación es tu mejor aliada.",
+                "Mañana calurosa en Los Ángeles, ¿lista para un serum que te cuide?"
+            ]
+        },
+        tarde: {
+            frio: [
+                "Buenas tardes, es un día frío en Los Ángeles. Tu piel te pide cuidados premium.",
+                "Por la tarde fría, tu rutina de belleza es más importante que nunca.",
+                "Tarde fresca en Los Ángeles, momento perfecto para tu diagnóstico personalizado."
+            ],
+            templado: [
+                "Buenas tardes, es el momento ideal para cuidar tu piel en Los Ángeles.",
+                "Por la tarde, descubre los secretos de una piel radiante.",
+                "Tarde hermosa en Los Ángeles, tu rutina de belleza te espera."
+            ],
+            caluroso: [
+                "Buenas tardes, después de este día de calor, tu piel merece nuestro serum.",
+                "Por la tarde calurosa, hidratación profunda es lo que necesitas.",
+                "Tarde ardiente en Los Ángeles, ¿lista para cuidados de lujo?"
+            ]
+        },
+        noche: {
+            frio: [
+                "Buenas noches, es un día frío en Los Ángeles. Tu rutina nocturna es sagrada.",
+                "Por la noche fría, dedícate a ti con nuestro serum premium.",
+                "Noche fresca en Los Ángeles, el momento perfecto para tu tratamiento facial."
+            ],
+            templado: [
+                "Buenas noches, es hora de cuidar tu piel en Los Ángeles.",
+                "Por la noche, tu piel se regenera. Dale los mejores cuidados.",
+                "Noche hermosa en Los Ángeles, tu rutina de belleza te espera."
+            ],
+            caluroso: [
+                "Buenas noches, después de este día de calor, descansa tu piel con lujo.",
+                "Por la noche, hidratación profunda para reparar el daño del calor.",
+                "Noche cálida en Los Ángeles, ¿lista para tu tratamiento premium?"
+            ]
+        }
+    };
+
+    async function obtenerClimaYSaludo() {
+        try {
+            // Coordenadas de Los Ángeles, Chile
+            const lat = -37.4667;
+            const lon = -72.3333;
+
+            // Obtener clima con Open-Meteo (sin API key)
+            const response = await fetch(
+                `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=America/Santiago`
+            );
+
+            if (!response.ok) throw new Error('Error obteniendo clima');
+
+            const data = await response.json();
+            const temperatura = data.current.temperature_2m;
+
+            // Determinar si es frío, templado o caluroso
+            let tipoClima = 'templado';
+            if (temperatura < 15) {
+                tipoClima = 'frio';
+            } else if (temperatura > 25) {
+                tipoClima = 'caluroso';
+            }
+
+            // Determinar hora del día
+            const ahora = new Date();
+            const hora = ahora.getHours();
+            let tiempoDelDia = 'tarde';
+            if (hora >= 6 && hora < 12) {
+                tiempoDelDia = 'manana';
+            } else if (hora >= 12 && hora < 18) {
+                tiempoDelDia = 'tarde';
+            } else {
+                tiempoDelDia = 'noche';
+            }
+
+            // Seleccionar saludo random
+            const saludosDisponibles = saludosPorHora[tiempoDelDia][tipoClima];
+            const saludoRandom = saludosDisponibles[Math.floor(Math.random() * saludosDisponibles.length)];
+
+            return saludoRandom;
+
+        } catch (error) {
+            // Fallback: solo usar hora
+            console.warn('No se pudo obtener clima, usando fallback:', error);
+
+            const ahora = new Date();
+            const hora = ahora.getHours();
+            let tiempoDelDia = 'tarde';
+            if (hora >= 6 && hora < 12) {
+                tiempoDelDia = 'manana';
+            } else if (hora >= 12 && hora < 18) {
+                tiempoDelDia = 'tarde';
+            } else {
+                tiempoDelDia = 'noche';
+            }
+
+            // Saludos genéricos sin clima
+            const saludosGeneral = {
+                manana: ['Buenos días, tu piel te está pidiendo cuidados premium.', 'Buen día, ¿lista para transformar tu rutina?', 'Mañana de belleza en Los Ángeles.'],
+                tarde: ['Buenas tardes, es el momento para cuidar tu piel.', 'Por la tarde, descubre los secretos de una piel radiante.', 'Tarde de lujo en Los Ángeles.'],
+                noche: ['Buenas noches, dedícate a ti con nuestro serum premium.', 'Por la noche, tu piel se regenera.', 'Noche de belleza en Los Ángeles.']
+            };
+
+            const saludoRandom = saludosGeneral[tiempoDelDia][Math.floor(Math.random() * saludosGeneral[tiempoDelDia].length)];
+            return saludoRandom;
+        }
+    }
+
+    // ============================================
     // VALIDACIÓN EN TIEMPO REAL
     // ============================================
     
@@ -128,9 +255,25 @@
         }
     }
 
+    // Inyectar saludo dinámico en el sitio
+    async function inyectarSaludoDinamico() {
+        const saludo = await obtenerClimaYSaludo();
+
+        // Inyectar en el subtitle del hero
+        const heroSubtitle = document.querySelector('.hero-subtitle');
+        if (heroSubtitle) {
+            // Agregar saludo como párrafo adicional elegante
+            const saludoElement = document.createElement('p');
+            saludoElement.className = 'hero-saludo-dinamico';
+            saludoElement.textContent = saludo;
+            heroSubtitle.parentElement.insertBefore(saludoElement, heroSubtitle.nextSibling);
+        }
+    }
+
     // Cargar personalización si ya existe un usuario en localStorage
     window.addEventListener('DOMContentLoaded', function() {
         verificarUsuarioExistente();
+        inyectarSaludoDinamico();
     });
 
     // ============================================

@@ -179,6 +179,17 @@ h3 {
     line-height: 1.8;
 }
 
+.hero-saludo-dinamico {
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    font-weight: 400;
+    color: var(--gold-light);
+    margin: 1.5rem 0 2.5rem;
+    line-height: 1.8;
+    font-style: italic;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.3s forwards;
+}
+
 .hero-local {
     margin-top: 1.5rem;
     font-size: 0.9rem;
