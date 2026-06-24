@@ -67,6 +67,43 @@
     interesSelect.addEventListener('change', validateInteres);
 
     // ============================================
+    // PERSONALIZACIÓN DEL SITIO
+    // ============================================
+
+    function personalizarSitio(nombre) {
+        // Cambiar el título de beneficios
+        const beneficiosTitulo = document.querySelector('#beneficios .section-title');
+        if (beneficiosTitulo) {
+            beneficiosTitulo.innerHTML = `¿Por qué estás cambiando tu rutina,<br><span class="highlight">${nombre}?</span>`;
+        }
+
+        // Cambiar el encabezado del formulario
+        const formHeader = document.querySelector('.form-header h2');
+        if (formHeader) {
+            formHeader.textContent = `¡Estamos listos, ${nombre}!`;
+        }
+
+        const formHeaderParrafo = document.querySelector('.form-header p');
+        if (formHeaderParrafo) {
+            formHeaderParrafo.textContent = `Tu diagnóstico personalizado te espera, ${nombre}. Cuéntanos un poco más para refinar tu rutina ideal.`;
+        }
+
+        // Cambiar CTA del hero (opcional)
+        const heroCta = document.querySelector('#hero .cta-primary');
+        if (heroCta) {
+            heroCta.innerHTML = `¿Mi rutina personalizada? <span class="cta-arrow">→</span>`;
+        }
+    }
+
+    // Cargar personalización si ya existe un usuario en localStorage
+    window.addEventListener('DOMContentLoaded', function() {
+        const userNombre = localStorage.getItem('userNombre');
+        if (userNombre) {
+            personalizarSitio(userNombre);
+        }
+    });
+
+    // ============================================
     // ENVÍO DEL FORMULARIO
     // ============================================
     
@@ -117,14 +154,21 @@
             const result = await response.json();
 
             if (response.ok) {
-                // Éxito: mostrar mensaje de agradecimiento
+                // Guardar nombre en localStorage para personalización
+                const nombrePrimero = formData.nombre.split(' ')[0];
+                localStorage.setItem('userNombre', nombrePrimero);
+
+                // Personalizar el sitio con el nombre
+                personalizarSitio(nombrePrimero);
+
+                // Mostrar mensaje de agradecimiento personalizado
                 if (result.thankYouMessage) {
-                    thankYouMessage.textContent = result.thankYouMessage;
+                    thankYouMessage.innerHTML = `¡Hola <strong>${nombrePrimero}</strong>!<br><br>${result.thankYouMessage}`;
                 }
-                
+
                 form.style.display = 'none';
                 successDiv.classList.remove('hidden');
-                
+
                 // Scroll suave al éxito
                 successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
