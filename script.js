@@ -125,12 +125,6 @@
         if (userNombre) {
             personalizarSitio(userNombre);
             mostrarMensajeYaContactado(userNombre);
-
-            // Mostrar botón "Nuevo contacto"
-            const limpiarBtn = document.getElementById('limpiar-contacto');
-            if (limpiarBtn) {
-                limpiarBtn.style.display = 'flex';
-            }
         }
     }
 
@@ -222,13 +216,13 @@
     });
 
     // ============================================
-    // BOTÓN "NUEVO CONTACTO" - Limpiar localStorage
+    // ENLACE "ENVIAR OTRO MENSAJE" - Limpiar localStorage
     // ============================================
 
-    function setupLimpiarButtonHandler() {
-        const limpiarBtn = document.getElementById('limpiar-contacto');
-        if (limpiarBtn) {
-            limpiarBtn.addEventListener('click', function(e) {
+    function setupResetContactoHandler() {
+        const resetLink = document.getElementById('reset-contacto');
+        if (resetLink) {
+            resetLink.addEventListener('click', function(e) {
                 e.preventDefault();
                 // Limpiar localStorage
                 localStorage.removeItem('userNombre');
@@ -240,7 +234,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', function() {
-        setupLimpiarButtonHandler();
+        setupResetContactoHandler();
     });
 
     // ============================================

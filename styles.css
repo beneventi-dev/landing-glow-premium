@@ -517,6 +517,25 @@ h3 {
     color: var(--burgundy);
 }
 
+.success-reset {
+    margin-top: 24px !important;
+    color: var(--gray) !important;
+    font-size: 0.85rem !important;
+}
+
+.success-reset a {
+    color: var(--gold-dark);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+}
+
+.success-reset a:hover {
+    color: var(--burgundy);
+    border-bottom: 1px solid var(--burgundy);
+}
+
 /* ============================================ */
 /* 9. CONTACT BAR (Sticky Mobile)              */
 /* ============================================ */
