@@ -71,13 +71,25 @@
     // ============================================
 
     function personalizarSitio(nombre) {
-        // Cambiar el título de beneficios
+        // SECCIÓN 1: HERO
+        const heroCta = document.querySelector('#hero .cta-primary');
+        if (heroCta) {
+            heroCta.innerHTML = `Tu ritual personalizado, ${nombre} <span class="cta-arrow">→</span>`;
+        }
+
+        // SECCIÓN 2: BENEFICIOS
         const beneficiosTitulo = document.querySelector('#beneficios .section-title');
         if (beneficiosTitulo) {
             beneficiosTitulo.innerHTML = `¿Por qué estás cambiando tu rutina,<br><span class="highlight">${nombre}?</span>`;
         }
 
-        // Cambiar el encabezado del formulario
+        // SECCIÓN 3: TESTIMONIOS
+        const testimoniosTitulo = document.querySelector('#testimonios .section-title');
+        if (testimoniosTitulo) {
+            testimoniosTitulo.innerHTML = `Lo que dicen nuestras clientas<br><span class="highlight">(y pronto tú también, ${nombre})</span>`;
+        }
+
+        // SECCIÓN 4: FORMULARIO (se reemplazará si ya contactó)
         const formHeader = document.querySelector('.form-header h2');
         if (formHeader) {
             formHeader.textContent = `¡Estamos listos, ${nombre}!`;
@@ -87,20 +99,44 @@
         if (formHeaderParrafo) {
             formHeaderParrafo.textContent = `Tu diagnóstico personalizado te espera, ${nombre}. Cuéntanos un poco más para refinar tu rutina ideal.`;
         }
+    }
 
-        // Cambiar CTA del hero (opcional)
-        const heroCta = document.querySelector('#hero .cta-primary');
-        if (heroCta) {
-            heroCta.innerHTML = `¿Mi rutina personalizada? <span class="cta-arrow">→</span>`;
+    // ============================================
+    // DETECTAR USUARIO EXISTENTE
+    // ============================================
+
+    function mostrarMensajeYaContactado(nombre) {
+        // Ocultar formulario
+        form.style.display = 'none';
+
+        // Mostrar mensaje de "ya contactado"
+        successDiv.classList.remove('hidden');
+
+        // Personalizar el mensaje
+        thankYouMessage.innerHTML = `
+            ✓ Recibimos tu mensaje, <strong>${nombre}</strong>.<br><br>
+            Ahora nos toca a nosotros contactarte. Revisaremos tu perfil en los próximos minutos
+            y te enviaremos un diagnóstico personalizado.
+        `;
+    }
+
+    function verificarUsuarioExistente() {
+        const userNombre = localStorage.getItem('userNombre');
+        if (userNombre) {
+            personalizarSitio(userNombre);
+            mostrarMensajeYaContactado(userNombre);
+
+            // Mostrar botón "Nuevo contacto"
+            const limpiarBtn = document.getElementById('limpiar-contacto');
+            if (limpiarBtn) {
+                limpiarBtn.style.display = 'flex';
+            }
         }
     }
 
     // Cargar personalización si ya existe un usuario en localStorage
     window.addEventListener('DOMContentLoaded', function() {
-        const userNombre = localStorage.getItem('userNombre');
-        if (userNombre) {
-            personalizarSitio(userNombre);
-        }
+        verificarUsuarioExistente();
     });
 
     // ============================================
@@ -183,6 +219,28 @@
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
         }
+    });
+
+    // ============================================
+    // BOTÓN "NUEVO CONTACTO" - Limpiar localStorage
+    // ============================================
+
+    function setupLimpiarButtonHandler() {
+        const limpiarBtn = document.getElementById('limpiar-contacto');
+        if (limpiarBtn) {
+            limpiarBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Limpiar localStorage
+                localStorage.removeItem('userNombre');
+
+                // Recargar la página para mostrar el formulario nuevamente
+                location.reload();
+            });
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+        setupLimpiarButtonHandler();
     });
 
     // ============================================
