@@ -21,6 +21,21 @@
 <body>
 
     <!-- ============================================ -->
+    <!-- TIME OF DAY OVERLAY - Fixed Corner           -->
+    <!-- ============================================ -->
+    <div id="time-indicator" class="time-indicator">
+        <div class="time-gradient"></div>
+        <div class="time-celestial">
+            <svg id="celestial-body" class="celestial-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <!-- Sol (círculo lleno) -->
+                <circle id="sol-icon" class="sol" cx="50" cy="50" r="32" fill="currentColor" style="display: none;"/>
+                <!-- Luna (círculo lleno) -->
+                <circle id="luna-icon" class="luna" cx="50" cy="50" r="32" fill="currentColor" style="display: none;"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
     <!-- 1. HERO SECTION (Impacto visual)              -->
     <!-- ============================================ -->
     <section id="hero">
@@ -68,19 +83,66 @@
             
             <div class="benefits-grid">
                 <div class="benefit-card">
-                    <div class="benefit-icon">🌿</div>
+                    <div class="benefit-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="62" height="62" viewBox="0 0 24 24" fill="currentColor">
+                            <!-- Hoja oscura -->
+                            <path d="M12 2C12 2, 6 6, 6 13C6 18, 9 22, 12 22C15 22, 18 18, 18 13C18 6, 12 2, 12 2Z" fill="currentColor"/>
+                            <!-- Vena central clara -->
+                            <line x1="12" y1="3" x2="12" y2="21" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round"/>
+                            <!-- Venas laterales claras -->
+                            <line x1="9" y1="8" x2="12" y2="12" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="15" y1="8" x2="12" y2="12" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="8" y1="14" x2="12" y2="16" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                            <line x1="16" y1="14" x2="12" y2="16" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                     <h3>Ingredientes con trazabilidad</h3>
                     <p>Cada activo tiene origen certificado. Sabes exactamente qué pones en tu piel.</p>
                 </div>
                 
                 <div class="benefit-card">
-                    <div class="benefit-icon">🐰</div>
+                    <div class="benefit-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="62" height="62" viewBox="0 0 24 24" fill="currentColor">
+                            <!-- Cabeza del conejo -->
+                            <circle cx="12" cy="10" r="6" fill="currentColor"/>
+                            <!-- Orejas del conejo -->
+                            <ellipse cx="8" cy="3" rx="2" ry="5" fill="currentColor"/>
+                            <ellipse cx="16" cy="3" rx="2" ry="5" fill="currentColor"/>
+                            <!-- Cuerpo del conejo -->
+                            <ellipse cx="12" cy="18" rx="5" ry="4" fill="currentColor"/>
+                            <!-- Ojos claros -->
+                            <circle cx="10" cy="9" r="1.5" fill="rgba(255,255,255,0.9)"/>
+                            <circle cx="14" cy="9" r="1.5" fill="rgba(255,255,255,0.9)"/>
+                            <!-- Corazón claro en el pecho (apuntando hacia arriba) -->
+                            <path d="M10 14C10 13.5, 10.8 13, 12 13C13.2 13, 14 13.5, 14 14C14 15, 12.5 16.5, 12 17C11.5 16.5, 10 15, 10 14Z" fill="rgba(255,255,255,0.85)"/>
+                        </svg>
+                    </div>
                     <h3>100% Cruelty-Free & Vegano</h3>
                     <p>Nunca testado en animales. Fórmulas limpias que respetan tu piel y el planeta.</p>
                 </div>
                 
                 <div class="benefit-card">
-                    <div class="benefit-icon">⏳</div>
+                    <div class="benefit-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="62" height="62" viewBox="0 0 24 24" fill="currentColor">
+                            <!-- Marco del calendario -->
+                            <rect x="3" y="4" width="18" height="16" rx="1" fill="currentColor"/>
+                            <!-- Barra superior del calendario -->
+                            <rect x="3" y="4" width="18" height="3" fill="currentColor"/>
+                            <!-- Agujeros para colgar (claros) -->
+                            <circle cx="6" cy="5.5" r="0.8" fill="rgba(255,255,255,0.8)"/>
+                            <circle cx="18" cy="5.5" r="0.8" fill="rgba(255,255,255,0.8)"/>
+                            <!-- Puntos claros emulando fechas (28 días) -->
+                            <circle cx="7" cy="9" r="1" fill="rgba(255,255,255,0.8)"/>
+                            <circle cx="11" cy="9" r="1" fill="rgba(255,255,255,0.8)"/>
+                            <circle cx="15" cy="9" r="1" fill="rgba(255,255,255,0.8)"/>
+                            <circle cx="7" cy="13" r="1" fill="rgba(255,255,255,0.8)"/>
+                            <circle cx="11" cy="13" r="1" fill="rgba(255,255,255,0.8)"/>
+                            <circle cx="15" cy="13" r="1" fill="rgba(255,255,255,0.8)"/>
+                            <circle cx="7" cy="17" r="1" fill="rgba(255,255,255,0.8)"/>
+                            <circle cx="11" cy="17" r="1" fill="rgba(255,255,255,0.8)"/>
+                            <circle cx="15" cy="17" r="1" fill="rgba(255,255,255,0.8)"/>
+                        </svg>
+                    </div>
                     <h3>Resultados visibles en 28 días</h3>
                     <p>Respaldado por estudios clínicos. Hidratación profunda y luminosidad garantizada.</p>
                 </div>
@@ -88,7 +150,7 @@
             
             <div class="benefit-local">
                 <p>
-                    <strong>📍 Hecho para el clima de Los Ángeles</strong><br>
+                    <strong><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Hecho para el clima de Los Ángeles</strong><br>
                     Fórmula ligera que se adapta al clima semiárido de la región del Biobío.
                     Hidratación sin sensación grasa.
                 </p>
@@ -190,7 +252,11 @@
                 </form>
                 
                 <div id="form-success" class="form-success hidden">
-                    <div class="success-icon">✓</div>
+                    <div class="success-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
                     <h3>¡Gracias por confiar en GLOW!</h3>
                     <p id="thank-you-message">
                         Hemos recibido tu solicitud de asesoría. En los próximos 5 minutos,
@@ -198,7 +264,7 @@
                         un diagnóstico personalizado.
                     </p>
                     <p class="success-local">
-                        <strong>📍 Los Ángeles, Chile</strong> — Nuestro equipo local te contactará pronto.
+                        <strong><svg class="inline-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Los Ángeles, Chile</strong> — Nuestro equipo local te contactará pronto.
                     </p>
                     <p class="success-reset">
                         <a href="#" id="reset-contacto">¿No eres tú? Enviar otro mensaje →</a>

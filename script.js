@@ -21,6 +21,65 @@
     const interesError = document.getElementById('interes-error');
 
     // ============================================
+    // ACTUALIZADOR DE INDICADOR DE HORA
+    // ============================================
+
+    function actualizarIndicadorHora() {
+        const ahora = new Date();
+        const hora = ahora.getHours();
+        const timeGradient = document.querySelector('.time-gradient');
+        const solIcon = document.getElementById('sol-icon');
+        const lunaIcon = document.getElementById('luna-icon');
+        const celestialSvg = document.getElementById('celestial-body');
+
+        let gradientColor = 'rgba(201, 169, 110, 0.4)';
+        let textColor = '#FFD700';
+
+        // Determinar hora del día y colores
+        if (hora >= 5 && hora < 8) {
+            // Amanecer: Rosa/Naranja
+            gradientColor = 'rgba(255, 140, 100, 0.5)';
+            textColor = '#FF8C64';
+            solIcon.style.display = 'block';
+            lunaIcon.style.display = 'none';
+            celestialSvg.style.color = textColor;
+        } else if (hora >= 8 && hora < 12) {
+            // Mañana: Amarillo brillante
+            gradientColor = 'rgba(255, 215, 0, 0.5)';
+            textColor = '#FFD700';
+            solIcon.style.display = 'block';
+            lunaIcon.style.display = 'none';
+            celestialSvg.style.color = textColor;
+        } else if (hora >= 12 && hora < 17) {
+            // Tarde: Amarillo cálido
+            gradientColor = 'rgba(255, 200, 0, 0.5)';
+            textColor = '#FFC800';
+            solIcon.style.display = 'block';
+            lunaIcon.style.display = 'none';
+            celestialSvg.style.color = textColor;
+        } else if (hora >= 17 && hora < 19) {
+            // Atardecer: Naranja/Rojo
+            gradientColor = 'rgba(255, 100, 80, 0.5)';
+            textColor = '#FF6450';
+            solIcon.style.display = 'block';
+            lunaIcon.style.display = 'none';
+            celestialSvg.style.color = textColor;
+        } else {
+            // Noche: Azul/Morado
+            gradientColor = 'rgba(100, 150, 200, 0.4)';
+            textColor = '#6B8BC4';
+            solIcon.style.display = 'none';
+            lunaIcon.style.display = 'block';
+            celestialSvg.style.color = textColor;
+        }
+
+        // Actualizar el gradiente
+        if (timeGradient) {
+            timeGradient.style.background = `radial-gradient(circle at 0% 0%, ${gradientColor} 0%, transparent 60%)`;
+        }
+    }
+
+    // ============================================
     // SALUDOS DINÁMICOS SEGÚN HORA Y CLIMA
     // ============================================
 
@@ -274,6 +333,7 @@
     window.addEventListener('DOMContentLoaded', function() {
         verificarUsuarioExistente();
         inyectarSaludoDinamico();
+        actualizarIndicadorHora();
     });
 
     // ============================================
