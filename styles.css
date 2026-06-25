@@ -922,6 +922,12 @@ body.dark-mode .cta-primary:hover {
     color: #0f0d0b;
 }
 
+body.dark-mode #beneficios,
+body.dark-mode #formulario,
+body.dark-mode #testimonios {
+    background-color: #0f0d0b !important;
+}
+
 body.dark-mode .benefit-card,
 body.dark-mode .testimonial-card,
 body.dark-mode .stat-card {
@@ -936,6 +942,31 @@ body.dark-mode .stat-card h3 {
 }
 
 body.dark-mode .benefit-card p {
+    color: #d4d1cc;
+}
+
+body.dark-mode .benefit-local {
+    background: linear-gradient(135deg, #1a1815 0%, #242320 100%) !important;
+    border-left-color: var(--gold);
+}
+
+body.dark-mode .benefit-local p {
+    color: #d4d1cc;
+}
+
+body.dark-mode .benefit-local strong {
+    color: #faf8f5;
+}
+
+body.dark-mode .form-wrapper {
+    background: #1a1815 !important;
+}
+
+body.dark-mode .form-header h2 {
+    color: #faf8f5;
+}
+
+body.dark-mode .form-header p {
     color: #d4d1cc;
 }
 
