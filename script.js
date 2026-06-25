@@ -486,4 +486,66 @@
         });
     });
 
+    // ============================================
+    // DARK MODE NOCTURNO
+    // ============================================
+
+    function verificarYMostrarBotoNocturno() {
+        const ahora = new Date();
+        const hora = ahora.getHours();
+        const nightCareBtn = document.getElementById('night-care-btn');
+        const isDarkModeActive = localStorage.getItem('darkModeActive') === 'true';
+
+        // Mostrar botón si es noche (19:00 a 05:00)
+        if ((hora >= 19 || hora < 5) && nightCareBtn) {
+            nightCareBtn.style.display = 'block';
+        }
+
+        // Si dark mode estaba activo, mantenerlo
+        if (isDarkModeActive) {
+            document.body.classList.add('dark-mode');
+            mostrarToggleDarkMode();
+        }
+    }
+
+    window.activarDarkMode = function() {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('darkModeActive', 'true');
+        document.getElementById('night-care-btn').style.display = 'none';
+        mostrarToggleDarkMode();
+        mostrarTooltip();
+    };
+
+    window.desactivarDarkMode = function() {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('darkModeActive', 'false');
+        document.getElementById('dark-mode-toggle').classList.add('hidden');
+        verificarYMostrarBotoNocturno();
+    };
+
+    function mostrarToggleDarkMode() {
+        const toggle = document.getElementById('dark-mode-toggle');
+        if (toggle) {
+            toggle.classList.remove('hidden');
+        }
+    }
+
+    function mostrarTooltip() {
+        const tooltip = document.getElementById('dark-mode-tooltip');
+        if (tooltip) {
+            tooltip.classList.remove('hidden');
+        }
+    }
+
+    window.cerrarTooltip = function() {
+        const tooltip = document.getElementById('dark-mode-tooltip');
+        if (tooltip) {
+            tooltip.classList.add('hidden');
+        }
+    };
+
+    // Inicializar dark mode al cargar
+    window.addEventListener('DOMContentLoaded', verificarYMostrarBotoNocturno);
+    verificarYMostrarBotoNocturno();
+
 })();
