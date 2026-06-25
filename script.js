@@ -496,15 +496,18 @@
         const nightCareBtn = document.getElementById('night-care-btn');
         const isDarkModeActive = localStorage.getItem('darkModeActive') === 'true';
 
-        // Mostrar botón si es noche (19:00 a 05:00)
-        if ((hora >= 19 || hora < 5) && nightCareBtn) {
-            nightCareBtn.style.display = 'block';
-        }
-
-        // Si dark mode estaba activo, mantenerlo
+        // Si dark mode estaba activo, mantenerlo y mostrar toggle
         if (isDarkModeActive) {
             document.body.classList.add('dark-mode');
             mostrarToggleDarkMode();
+            if (nightCareBtn) {
+                nightCareBtn.style.display = 'none';
+            }
+        } else {
+            // Mostrar botón SOLO si es noche Y dark mode NO está activo
+            if ((hora >= 19 || hora < 5) && nightCareBtn) {
+                nightCareBtn.style.display = 'block';
+            }
         }
     }
 

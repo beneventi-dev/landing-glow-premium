@@ -765,9 +765,9 @@ h3 {
 /* ============================================ */
 .night-care-btn {
     position: absolute;
-    top: 22px;
-    left: 85px;
-    background: rgba(59, 130, 246, 0.85);
+    top: 40px;
+    left: 95px;
+    background: rgba(107, 139, 196, 0.9);
     color: white;
     border: none;
     padding: 8px 14px;
@@ -777,7 +777,7 @@ h3 {
     cursor: pointer;
     line-height: 1.2;
     transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 2px 8px rgba(107, 139, 196, 0.4);
     pointer-events: all;
     width: auto;
     text-align: center;
@@ -785,8 +785,8 @@ h3 {
 }
 
 .night-care-btn:hover {
-    background: rgba(59, 130, 246, 1);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
+    background: rgba(107, 139, 196, 1);
+    box-shadow: 0 4px 12px rgba(107, 139, 196, 0.6);
 }
 
 /* Dark Mode Tooltip */
@@ -967,6 +967,34 @@ body.dark-mode .form-header h2 {
 }
 
 body.dark-mode .form-header p {
+    color: #d4d1cc;
+}
+
+body.dark-mode .form-success h3 {
+    color: #faf8f5;
+}
+
+body.dark-mode .form-success p {
+    color: #d4d1cc;
+}
+
+body.dark-mode .success-local {
+    color: #d4d1cc !important;
+}
+
+body.dark-mode .success-local strong {
+    color: #faf8f5;
+}
+
+body.dark-mode .success-reset {
+    color: #b8b5b0 !important;
+}
+
+body.dark-mode .success-reset a {
+    color: var(--gold-light);
+}
+
+body.dark-mode .thank-you-message {
     color: #d4d1cc;
 }
 

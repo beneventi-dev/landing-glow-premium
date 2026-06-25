@@ -29,8 +29,16 @@
             <svg id="celestial-body" class="celestial-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
                 <!-- Sol (círculo lleno) -->
                 <circle id="sol-icon" class="sol" cx="50" cy="50" r="32" fill="currentColor" style="display: none;"/>
-                <!-- Luna (círculo lleno) -->
-                <circle id="luna-icon" class="luna" cx="50" cy="50" r="32" fill="currentColor" style="display: none;"/>
+                <!-- Luna (media luna verdadera) -->
+                <g id="luna-icon" class="luna" style="display: none;">
+                    <defs>
+                        <mask id="lunaMask">
+                            <rect width="100" height="100" fill="white"/>
+                            <circle cx="60" cy="50" r="28" fill="black"/>
+                        </mask>
+                    </defs>
+                    <circle cx="50" cy="50" r="32" fill="currentColor" mask="url(#lunaMask)"/>
+                </g>
             </svg>
         </div>
         <!-- Botón nocturno para activar dark mode -->
