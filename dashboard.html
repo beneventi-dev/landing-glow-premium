@@ -450,9 +450,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    <!-- Configuración de Firebase -->
-    <script src="./firebase-config.js"></script>
-
     <script>
         // Variables globales
         let auth;
@@ -460,20 +457,38 @@
         let leadsData = [];
         let filteredLeads = [];
 
-        // Inicializar Firebase
-        firebase.initializeApp(firebaseConfig);
-        auth = firebase.auth();
-        database = firebase.database();
+        // Obtener configuración de Firebase desde el servidor (seguro)
+        async function inicializarDashboard() {
+            try {
+                const response = await fetch('/api/dashboard-config');
+                const firebaseConfig = await response.json();
 
-        // Verificar autenticación al cargar
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                mostrarDashboard(user);
-                cargarLeads();
-            } else {
-                mostrarLogin();
+                // Inicializar Firebase con la configuración del servidor
+                firebase.initializeApp(firebaseConfig);
+                auth = firebase.auth();
+                database = firebase.database();
+
+                // Verificar autenticación
+                auth.onAuthStateChanged(user => {
+                    if (user) {
+                        mostrarDashboard(user);
+                        cargarLeads();
+                    } else {
+                        mostrarLogin();
+                    }
+                });
+            } catch (error) {
+                console.error('Error al cargar configuración:', error);
+                alert('Error al inicializar el dashboard. Intenta recargar la página.');
             }
-        });
+        }
+
+        // Inicializar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', inicializarDashboard);
+        } else {
+            inicializarDashboard();
+        }
 
         function mostrarLogin() {
             document.getElementById('loginSection').style.display = 'flex';
