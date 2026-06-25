@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
     // Configuración pública de Firebase (segura porque está restringida por dominio)
     const firebaseConfig = {
-        apiKey: "AIzaSyAnbD6zUJZp7Ps-Z3KLp_1YQ0bL4nT8KvI",
+        apiKey: "AIzaSyBo1G5H9ZLumIm2PwTtq_KRVIyeY05NuTc",
         authDomain: "glow-bcf37.firebaseapp.com",
         databaseURL: "https://glow-bcf37-default-rtdb.firebaseio.com",
         projectId: "glow-bcf37",
