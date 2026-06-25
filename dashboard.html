@@ -272,7 +272,7 @@
                         <td><span class="badge ${badgeClass}">${lead.estado}</span></td>
                         <td>
                             <div class="actions">
-                                <button class="contact-btn" onclick="abrirModalContacto('${lead.nombre}', '${lead.email}', '${lead.telefono}')">Contactar</button>
+                                <button class="contact-btn" onclick="abrirModalContacto('${lead.nombre}', '${lead.email}', '${lead.telefono}', '${lead.interes}')">Contactar</button>
                                 <select class="status-select" onchange="cambiarEstado('${lead.id}', this.value)">
                                     <option value="">Cambiar estado</option>
                                     <option value="Pendiente">Pendiente</option>
@@ -332,7 +332,7 @@
         }
 
         // Modal de contacto
-        function abrirModalContacto(nombre, email, telefono) {
+        function abrirModalContacto(nombre, email, telefono, interes) {
             document.getElementById('modalContactoNombre').textContent = `Contactar a ${nombre}`;
             document.getElementById('modalContactoEmail').textContent = email;
 
@@ -343,7 +343,7 @@
             document.getElementById('btnTelefono').href = `tel:${telefono}`;
 
             // WhatsApp
-            const mensajeWA = encodeURIComponent(`Hola ${nombre}, te escribo desde tu Lead en GLOW Dashboard.`);
+            const mensajeWA = encodeURIComponent(`Hola ${nombre}, te escribo desde GLOW por tu interés en ${interes}.`);
             document.getElementById('btnWhatsapp').href = `https://wa.me/${telefono.replace(/\D/g, '')}?text=${mensajeWA}`;
 
             document.getElementById('contactModal').style.display = 'flex';
