@@ -123,40 +123,40 @@ export default async function handler(req, res) {
         await transporter.sendMail(mailOptions);
 
         // ============================================
-        // 4. GUARDAR EN GOOGLE SHEETS (Opcional)
+        // 4. GUARDAR EN FIREBASE (Realtime Database)
         // ============================================
-        // Si tienes configurado Google Sheets, descomenta esta sección
-        /*
-        const { google } = require('googleapis');
-        const sheets = google.sheets('v4');
-        
-        const auth = new google.auth.GoogleAuth({
-            credentials: {
-                private_key: process.env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-                client_email: process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
-            },
-            scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-        });
+        if (process.env.FIREBASE_CREDENTIALS && process.env.FIREBASE_DATABASE_URL) {
+            try {
+                const admin = require('firebase-admin');
 
-        const sheetsClient = await auth.getClient();
-        const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
+                // Inicializar Firebase solo si no está ya inicializado
+                if (!admin.apps.length) {
+                    const credentials = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+                    admin.initializeApp({
+                        credential: admin.credential.cert(credentials),
+                        databaseURL: process.env.FIREBASE_DATABASE_URL
+                    });
+                }
 
-        await sheets.spreadsheets.values.append({
-            auth: sheetsClient,
-            spreadsheetId: spreadsheetId,
-            range: 'Leads!A:E',
-            valueInputOption: 'USER_ENTERED',
-            requestBody: {
-                values: [[
-                    new Date(timestamp).toLocaleString('es-CL', { timeZone: 'America/Santiago' }),
-                    nombre,
-                    email,
-                    interesLabel,
-                    'Pendiente'
-                ]]
+                const db = admin.database();
+                const leadId = Date.now().toString();
+
+                // Guardar lead en Firebase
+                await db.ref(`leads/${leadId}`).set({
+                    nombre: nombre,
+                    email: email,
+                    interes: interesLabel,
+                    timestamp: new Date(timestamp).toISOString(),
+                    fechaFormato: new Date(timestamp).toLocaleString('es-CL', { timeZone: 'America/Santiago' }),
+                    estado: 'Pendiente'
+                });
+
+                console.log(`Lead guardado en Firebase: ${leadId}`);
+            } catch (firebaseError) {
+                console.warn('No se pudo guardar en Firebase:', firebaseError.message);
+                // No fallar la respuesta si Firebase falla, solo registrar el error
             }
-        });
-        */
+        }
 
         // ============================================
         // 5. RESPONDER CON ÉXITO

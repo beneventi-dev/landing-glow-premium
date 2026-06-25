@@ -1,0 +1,19 @@
+# Archivos de entorno (contienen secretos)
+.env.local
+.env
+.env.*.local
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
