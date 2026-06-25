@@ -3,7 +3,7 @@
 // 1. Restricción de dominio en Google Cloud Console
 // 2. Reglas de seguridad en Firebase (solo usuarios autenticados pueden acceder)
 
-export const firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyAnbD6zUJZp7Ps-Z3KLp_1YQ0bL4nT8KvI",
     authDomain: "glow-bcf37.firebaseapp.com",
     databaseURL: "https://glow-bcf37-default-rtdb.firebaseio.com",
