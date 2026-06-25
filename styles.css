@@ -1055,7 +1055,51 @@ body.dark-mode .highlight {
 /* ============================================ */
 /* 11. UTILITIES & RESPONSIVE                   */
 /* ============================================ */
+
+/* Dark Mode Responsive */
+@media (max-width: 768px) {
+    .night-care-btn {
+        top: 75px !important;
+        left: auto !important;
+        right: 15px !important;
+        width: 100px !important;
+        font-size: 0.6rem;
+        padding: 6px 8px !important;
+    }
+}
+
 @media (max-width: 480px) {
+    .time-indicator {
+        position: absolute !important;
+    }
+
+    .night-care-btn {
+        top: 30px !important;
+        right: 25px !important;
+        width: 90px !important;
+        font-size: 0.55rem;
+        padding: 5px 6px !important;
+        line-height: 1.1 !important;
+    }
+
+    .dark-mode-toggle {
+        bottom: 100px !important;
+        right: 15px !important;
+    }
+
+    .dark-mode-toggle button {
+        padding: 8px 12px;
+        font-size: 0.75rem;
+    }
+
+    .dark-mode-tooltip {
+        left: 15px !important;
+        right: 15px !important;
+        bottom: 180px !important;
+        max-width: none;
+        width: auto;
+    }
+
     .form-wrapper {
         padding: 28px 16px;
     }
