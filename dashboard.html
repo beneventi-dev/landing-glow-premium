@@ -445,24 +445,25 @@
         </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js"></script>
+    <!-- Firebase SDK v8 (compatible con scripts tradicionales) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <!-- Configuración de Firebase -->
     <script src="./firebase-config.js"></script>
 
     <script>
-        // Configuración cargada desde firebase-config.js
+        // Variables globales
+        let auth;
+        let database;
+        let leadsData = [];
+        let filteredLeads = [];
 
         // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
-
-        let leadsData = [];
-        let filteredLeads = [];
+        auth = firebase.auth();
+        database = firebase.database();
 
         // Verificar autenticación al cargar
         auth.onAuthStateChanged(user => {
