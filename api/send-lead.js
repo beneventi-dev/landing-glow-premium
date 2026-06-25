@@ -9,12 +9,12 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { nombre, email, interes, timestamp } = req.body;
+        const { nombre, email, telefono, interes, timestamp } = req.body;
 
         // Validar datos obligatorios
-        if (!nombre || !email || !interes) {
-            return res.status(400).json({ 
-                error: 'Faltan campos obligatorios: nombre, email, e interés' 
+        if (!nombre || !email || !telefono || !interes) {
+            return res.status(400).json({
+                error: 'Faltan campos obligatorios: nombre, email, teléfono e interés'
             });
         }
 
@@ -86,7 +86,12 @@ export default async function handler(req, res) {
                         <span class="label">📧 Correo:</span>
                         <span class="value">${email}</span>
                     </div>
-                    
+
+                    <div class="field">
+                        <span class="label">📱 Teléfono:</span>
+                        <span class="value">${telefono}</span>
+                    </div>
+
                     <div class="field">
                         <span class="label">🎯 Interés:</span>
                         <span class="badge">${interesLabel}</span>
@@ -116,7 +121,7 @@ export default async function handler(req, res) {
             to: recipients.join(', '),
             subject: asunto,
             html: htmlContent,
-            text: `Nuevo lead de GLOW\n\nNombre: ${nombre}\nCorreo: ${email}\nInterés: ${interesLabel}\nFecha: ${new Date(timestamp).toLocaleString('es-CL')}`
+            text: `Nuevo lead de GLOW\n\nNombre: ${nombre}\nCorreo: ${email}\nTeléfono: ${telefono}\nInterés: ${interesLabel}\nFecha: ${new Date(timestamp).toLocaleString('es-CL')}`
         };
 
         // Enviar correo
@@ -145,6 +150,7 @@ export default async function handler(req, res) {
                 await db.ref(`leads/${leadId}`).set({
                     nombre: nombre,
                     email: email,
+                    telefono: telefono,
                     interes: interesLabel,
                     timestamp: new Date(timestamp).toISOString(),
                     fechaFormato: new Date(timestamp).toLocaleString('es-CL', { timeZone: 'America/Santiago' }),

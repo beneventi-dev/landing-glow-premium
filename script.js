@@ -13,11 +13,13 @@
     // Campos
     const nombreInput = document.getElementById('nombre');
     const emailInput = document.getElementById('email');
+    const telefonoInput = document.getElementById('telefono');
     const interesSelect = document.getElementById('interes');
-    
+
     // Mensajes de error
     const nombreError = document.getElementById('nombre-error');
     const emailError = document.getElementById('email-error');
+    const telefonoError = document.getElementById('telefono-error');
     const interesError = document.getElementById('interes-error');
 
     // ============================================
@@ -235,6 +237,19 @@
         return true;
     }
 
+    function validateTelefono() {
+        const value = telefonoInput.value.trim();
+        const telefonoRegex = /^(\+?56)?[\s]?9[\s]?(\d{4})[\s]?(\d{4})$/;
+        if (!telefonoRegex.test(value)) {
+            telefonoInput.closest('.form-group').classList.add('error');
+            telefonoError.classList.add('visible');
+            return false;
+        }
+        telefonoInput.closest('.form-group').classList.remove('error');
+        telefonoError.classList.remove('visible');
+        return true;
+    }
+
     function validateInteres() {
         const value = interesSelect.value;
         if (!value) {
@@ -250,6 +265,7 @@
     // Validación en blur (cuando el usuario sale del campo)
     nombreInput.addEventListener('blur', validateNombre);
     emailInput.addEventListener('blur', validateEmail);
+    telefonoInput.addEventListener('blur', validateTelefono);
     interesSelect.addEventListener('change', validateInteres);
 
     // ============================================
@@ -346,14 +362,17 @@
         // Validar todos los campos
         const isNombreValid = validateNombre();
         const isEmailValid = validateEmail();
+        const isTelefonoValid = validateTelefono();
         const isInteresValid = validateInteres();
 
-        if (!isNombreValid || !isEmailValid || !isInteresValid) {
+        if (!isNombreValid || !isEmailValid || !isTelefonoValid || !isInteresValid) {
             // Enfocar el primer campo con error
             if (!isNombreValid) {
                 nombreInput.focus();
             } else if (!isEmailValid) {
                 emailInput.focus();
+            } else if (!isTelefonoValid) {
+                telefonoInput.focus();
             } else if (!isInteresValid) {
                 interesSelect.focus();
             }
@@ -370,6 +389,7 @@
         const formData = {
             nombre: nombreInput.value.trim(),
             email: emailInput.value.trim(),
+            telefono: telefonoInput.value.trim(),
             interes: interesSelect.value,
             timestamp: new Date().toISOString()
         };
